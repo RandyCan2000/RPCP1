@@ -7,11 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Proyecto1.Globale;
+using Proyecto1.Metodos;
 
 namespace Proyecto1
 {
+    
     public partial class Form1 : Form
     {
+        Globales G = new Globales();
+        Automata A = new Automata();
+        METODOS M = new METODOS();
         public Form1()
         {
             InitializeComponent();
@@ -43,9 +49,9 @@ namespace Proyecto1
 
         private void aNALIZARToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string NombreRich = "Rich" + tabControl1.SelectedTab.Text;
-            RichTextBox Rich =tabControl1.SelectedTab.Controls[NombreRich]as RichTextBox;
-
+                string NombreRich = "Rich" + tabControl1.SelectedTab.Text;
+                RichTextBox Rich = tabControl1.SelectedTab.Controls[NombreRich] as RichTextBox;
+                A.AutomataConjuntos(Rich.Text,dataGridView1,dataGridView2);
         }
     }
 }

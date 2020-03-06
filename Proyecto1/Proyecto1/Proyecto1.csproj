@@ -52,8 +52,13 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Globales\Globales.cs" />
+    <Compile Include="Metodos\Automata.cs" />
+    <Compile Include="Metodos\METODOS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TDA\Error.cs" />
+    <Compile Include="TDA\Token.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
