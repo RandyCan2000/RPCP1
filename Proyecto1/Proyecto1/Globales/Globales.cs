@@ -10,5 +10,6 @@ namespace Proyecto1.Globale
         public Stack<Error> ERROR;
         public String Ruta;
         public int EXPREGAEVALUAR;
+
     }
 }
