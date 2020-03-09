@@ -13,11 +13,15 @@ namespace Proyecto1.Metodos
 {
     class METODOS
     {
+        public Globales G = new Globales();
+        Stack<String> EXPSeparada;
+        NodoT Inicio = null, Fin = null;
+        int ContadorNodo = 0;
         public void CargarTablaToken(DataGridView DTG1, Stack<Token> tok) {
             DataTable Tab = new DataTable();
             Tab.Columns.Add("ID");
             Tab.Columns.Add("LEXEMA");
-            for (int i = 0; i < tok.Count; i++) {
+            for (int i = tok.Count-1; i >=0 ; i--) {
                 DataRow Fila = Tab.NewRow();
                 Fila["ID"] = tok.ElementAt(i).getID();
                 Fila["LEXEMA"] = tok.ElementAt(i).getLexema();
@@ -35,7 +39,7 @@ namespace Proyecto1.Metodos
             Tab.Columns.Add("FILA");
             Tab.Columns.Add("COLUMNA");
             Tab.Columns.Add("ESPERADO");
-            for (int i = 0; i < ERR.Count; i++)
+            for (int i = ERR.Count-1; i >=0; i--)
             {
                 DataRow Fila = Tab.NewRow();
                 Fila["ID"] = ERR.ElementAt(i).getID();
@@ -61,5 +65,62 @@ namespace Proyecto1.Metodos
             
             return Text;
         }
+        public void BuscarExpReg(Stack<Token> TOKEN){
+            Inicio = null; Fin = null;
+            ContadorNodo = 0;
+            for (int i = TOKEN.Count-1; i >= 0 ; i--)
+            {
+                if (TOKEN.ElementAt(i).getLexema().Equals("CONJ"))
+                {
+                    for (int index = i; i >=0; index--)
+                    {
+                        if (TOKEN.ElementAt(index).getLexema().Equals(";")) { i = index; break; }
+                    }
+                }
+                else if (TOKEN.ElementAt(i).getLexema().Equals("->"))
+                {
+                    string Lexema = TOKEN.ElementAt(i - 1).getLexema();
+                    SepararExpReg(Lexema);
+                    i--;
+                }
+                else if (TOKEN.ElementAt(i).getLexema().Equals("%%")) { break; }
+            }
+        }
+
+        public void SepararExpReg(String EXP)
+        {
+            Stack<String> EXPSeparada2 = new Stack<String>();
+            EXPSeparada = new Stack<String>();
+            String Pal = "";
+            for (int i = 0; i < EXP.Length; i++)
+            {
+                if (EXP[i] == '.' || EXP[i] == '|' || EXP[i] == '*' || EXP[i] == '+' || EXP[i] == '?')
+                { EXPSeparada2.Push(Char.ToString(EXP[i])); }
+                else if (EXP[i] == '"')
+                {
+                    Pal = "\"";
+                    for (int b = i + 1; b < EXP.Length; b++) { if (EXP[b] == '"') { Pal += EXP[b]; EXPSeparada2.Push(Pal); i = b; break; } else { Pal += EXP[b]; } }
+                    Pal = "";
+                }
+                else if (EXP[i] == '{')
+                {
+                    for (int b = i; b < EXP.Length; b++) { if (EXP[b] == '}') { Pal += EXP[b]; EXPSeparada2.Push(Pal); i = b; break; } else { Pal += EXP[b]; } }
+                    Pal = "";
+                }
+            }
+            while (EXPSeparada2.Count!=0) {
+                    EXPSeparada.Push(EXPSeparada2.Pop());
+            }
+            Console.WriteLine("EXP SEPARADA");
+            //Metodos que deben generar el automata
+            G.contadorArbol++;
+        }
+
+        public void GenerarThompshon() {
+        
+        }
+        public void AgregarNodoArriba() { }
+        public void AgregarNodoAbajo() { }
+
     }
 }

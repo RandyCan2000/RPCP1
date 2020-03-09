@@ -8,7 +8,7 @@ namespace Proyecto1.Metodos
 {
     class Automata
     {
-        public METODOS M = new METODOS();
+        
         public Globales G = new Globales();
         int Estado = 0;
         String Token = "";
@@ -874,8 +874,13 @@ namespace Proyecto1.Metodos
                         break;
                 }
             }
+            METODOS M = new METODOS();
             M.CargarTablaToken(DTG1,G.TOKEN);
             M.CargarTablaErrores(DTG2, G.ERROR);
+            if (G.ERROR.Count==0) {
+                G.contadorArbol = 0;
+                M.BuscarExpReg(G.TOKEN);
+            }
         }
     }
 }
