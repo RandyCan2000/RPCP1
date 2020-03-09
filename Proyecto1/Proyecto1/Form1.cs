@@ -16,7 +16,7 @@ namespace Proyecto1
     public partial class Form1 : Form
     {
         Globales G = new Globales();
-        Automata A = new Automata();
+        
         METODOS M = new METODOS();
         public Form1()
         {
@@ -43,15 +43,23 @@ namespace Proyecto1
             Rich.Name = "Rich"+Nuevo.Name;
             //Redimencionar richtextbox
             Rich.SetBounds(0, 0, tabControl1.Width-10, tabControl1.Height-20);
-            Nuevo.Controls.Add(Rich);
-            tabControl1.Controls.Add(Nuevo);
+            OpenFileDialog Buscador = new OpenFileDialog();
+            Buscador.Filter = "ExpReg|*.er";
+            if (Buscador.ShowDialog() == DialogResult.OK)
+            {
+                Rich.Text=M.AbrirArchivo(Buscador.FileName);
+                Nuevo.Controls.Add(Rich);
+                tabControl1.Controls.Add(Nuevo);
+            }
+            else { MessageBox.Show("Error no Selecciono ningun archivo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void aNALIZARToolStripMenuItem_Click(object sender, EventArgs e)
         {
-                string NombreRich = "Rich" + tabControl1.SelectedTab.Text;
-                RichTextBox Rich = tabControl1.SelectedTab.Controls[NombreRich] as RichTextBox;
-                A.AutomataConjuntos(Rich.Text,dataGridView1,dataGridView2);
+            Automata A = new Automata();
+            string NombreRich = "Rich" + tabControl1.SelectedTab.Text;
+            RichTextBox Rich = tabControl1.SelectedTab.Controls[NombreRich] as RichTextBox;
+            A.AutomataConjuntos(Rich.Text,dataGridView1,dataGridView2);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,18 @@ namespace Proyecto1.Metodos
             DTG1.DataSource = Tab;
             DTG1.Update();
         }
-
+        public String AbrirArchivo(String Ruta) {
+            String Text = "";
+            StreamReader Texto = new StreamReader(Ruta);
+                String Linea = "";
+                while (!Texto.EndOfStream)
+                {
+                    Linea = Texto.ReadLine();
+                    Text += Linea + "\r\n";
+                }
+                Texto.Close();
+            
+            return Text;
+        }
     }
 }
