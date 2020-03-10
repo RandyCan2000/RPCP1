@@ -56,10 +56,14 @@ namespace Proyecto1
 
         private void aNALIZARToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Automata A = new Automata();
-            string NombreRich = "Rich" + tabControl1.SelectedTab.Text;
-            RichTextBox Rich = tabControl1.SelectedTab.Controls[NombreRich] as RichTextBox;
-            A.AutomataConjuntos(Rich.Text,dataGridView1,dataGridView2);
+            try {
+                Automata A = new Automata();
+                string NombreRich = "Rich" + tabControl1.SelectedTab.Text;
+                RichTextBox Rich = tabControl1.SelectedTab.Controls[NombreRich] as RichTextBox;
+                A.AutomataConjuntos(Rich.Text, dataGridView1, dataGridView2);
+            } catch (Exception E) {
+                MessageBox.Show("NO HAY NADA QUE ANALIZAR", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

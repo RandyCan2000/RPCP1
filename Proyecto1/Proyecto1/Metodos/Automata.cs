@@ -85,11 +85,11 @@ namespace Proyecto1.Metodos
                             G.TOKEN.Push(Z1);
                             Terminar = true;
                         }
-                        else if (Caracter == '%')
+                        /*else if (Caracter == '%')
                         {
                             Estado = 26;
                             Token = "%";
-                        }
+                        }*/
                         else
                         {
                             // Nombre Expresiones
@@ -504,6 +504,12 @@ namespace Proyecto1.Metodos
                             G.TOKEN.Push(Z1);
                             Token = "-";
                             Estado = 22;
+                        } else if (Caracter==':') {
+                            Token Z1 = new Token(G.TOKEN.Count, ":");
+                            Console.WriteLine(Z1.toString());
+                            G.TOKEN.Push(Z1);
+                            Token = "";
+                            Estado = 34;
                         }
                         else if (Caracter == '\n')
                         {
@@ -526,6 +532,12 @@ namespace Proyecto1.Metodos
                         {
                             Token += Caracter;
                             Estado = 22;
+                        } else if (Caracter==':') {
+                            Token Z1 = new Token(G.TOKEN.Count, ":");
+                            Console.WriteLine(Z1.toString());
+                            G.TOKEN.Push(Z1);
+                            Token = "";
+                            Estado = 34;
                         }
                         else
                         {
@@ -570,6 +582,30 @@ namespace Proyecto1.Metodos
                             ComillasExpReg++;
                             ESPACIOS = true;
                             Estado = 25;
+                        } else if (Caracter=='[') {
+                            Token += "\"";
+                            if (Linea[Col + 1] == ':')
+                            {
+                                for (int i = Col + 2; i < Linea.Length; i++)
+                                {
+                                    if (Linea[i] == ':' && Linea[i + 1] == ']')
+                                    {
+                                        Token += "\"";
+                                        Col = i + 1;
+                                        break;
+                                    } else if (Linea[i]=='\n') {
+                                        Col = i;
+                                        Estado = 200;
+                                        ERRC = new Error(G.ERROR.Count,"SALTO DE LINEA", Fila, Columna, "NO SALTO DE LINEA EN EXP REGULAR");
+                                        break;
+                                    }
+                                    else { Token += Linea[i]; }
+                                }
+                            }
+                            else {
+                                Estado = 200;
+                                ERRC = new Error(G.ERROR.Count, Char.ToString(Linea[Col + 1]), Fila, Columna, ":");
+                            }
                         }
                         else if (Caracter == '{')
                         {
@@ -835,11 +871,6 @@ namespace Proyecto1.Metodos
                                 Col = q;
                                 break;
                             }
-                            else if (Linea[q] == '\n')
-                            {
-                                Estado = 200;
-                                ERRC = new Error(G.ERROR.Count, "Enter", Fila, Columna, "SIN SALTO DE LINEA");
-                            }
                             else
                             {
                                 Token += Linea[q];
@@ -858,7 +889,7 @@ namespace Proyecto1.Metodos
                             Token Z1 = new Token(G.TOKEN.Count, ";");
                             Console.WriteLine(Z1.toString());
                             G.TOKEN.Push(Z1);
-                            Estado = 30;
+                            Estado = 1;
                         }
                         else
                         {

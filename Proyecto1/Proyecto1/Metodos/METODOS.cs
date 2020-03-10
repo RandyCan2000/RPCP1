@@ -83,7 +83,7 @@ namespace Proyecto1.Metodos
                     SepararExpReg(Lexema);
                     i--;
                 }
-                else if (TOKEN.ElementAt(i).getLexema().Equals("%%")) { break; }
+                else if (TOKEN.ElementAt(i).getLexema().Equals("%%")) {break;}
             }
         }
 
@@ -119,8 +119,11 @@ namespace Proyecto1.Metodos
         public void GenerarThompshon() {
         
         }
-        public void AgregarNodoArriba() { }
-        public void AgregarNodoAbajo() { }
 
+        public void PlantillaKleen() {}
+        public void PlantillaConcatenacion() { }
+        public void PlantillaOr() { }
+        public void PlantillaSignoInterrogacion() { }
+        public void PlantillaCerraduraPositiva() { }
     }
 }
