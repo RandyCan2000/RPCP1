@@ -11,5 +11,6 @@ namespace Proyecto1.Globale
         public String Ruta;
         public int EXPREGAEVALUAR;
         public int contadorArbol;
+        public String Eps = "Epsilon";
     }
 }

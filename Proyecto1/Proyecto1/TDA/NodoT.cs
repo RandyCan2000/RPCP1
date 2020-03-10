@@ -14,14 +14,15 @@ namespace Proyecto1.TDA
         private NodoT NodoAbajo;
         private string ValNodoAbajo;
 
-        public NodoT()
+        public NodoT(int NumNodo)
         {
-            NumNodo=0;
-            NodoArriba = null;
-            ValNodoArriba = null;
-            NodoAbajo = null;
-            ValNodoAbajo = null;
+            this.NumNodo=NumNodo;
+            this.NodoArriba = null;
+            this.ValNodoArriba = null;
+            this.NodoAbajo = null;
+            this.ValNodoAbajo = null;
         }
+        public NodoT(){}
 
         public int NumNodo1 { get => NumNodo; set => NumNodo = value; }
         public string ValNodoArriba1 { get => ValNodoArriba; set => ValNodoArriba = value; }
