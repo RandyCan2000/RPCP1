@@ -582,7 +582,7 @@ namespace Proyecto1.Metodos
                             ComillasExpReg++;
                             ESPACIOS = true;
                             Estado = 25;
-                        } else if (Caracter=='[') {
+                        } else if (Caracter == '[') {
                             Token += "\"";
                             if (Linea[Col + 1] == ':')
                             {
@@ -593,10 +593,10 @@ namespace Proyecto1.Metodos
                                         Token += "\"";
                                         Col = i + 1;
                                         break;
-                                    } else if (Linea[i]=='\n') {
+                                    } else if (Linea[i] == '\n') {
                                         Col = i;
                                         Estado = 200;
-                                        ERRC = new Error(G.ERROR.Count,"SALTO DE LINEA", Fila, Columna, "NO SALTO DE LINEA EN EXP REGULAR");
+                                        ERRC = new Error(G.ERROR.Count, "SALTO DE LINEA", Fila, Columna, "NO SALTO DE LINEA EN EXP REGULAR");
                                         break;
                                     }
                                     else { Token += Linea[i]; }
@@ -634,11 +634,11 @@ namespace Proyecto1.Metodos
                             Console.WriteLine(Z1.toString());
                             G.TOKEN.Push(Z1);
                         }
-                        else if (Caracter == ' ' || Caracter == '\t' || Caracter == '\n')
+                        else if (Caracter == '\n')
                         {
                             Estado = 200;
-                            ERRC = new Error(G.ERROR.Count, "ESPACIO, TAB o ENTER", Fila, Columna, "SIN ESPACIOS FUERA DE COMILLAS");
-                        }
+                            ERRC = new Error(G.ERROR.Count, "ENTER", Fila, Columna, "SIN ESPACIOS FUERA DE COMILLAS");
+                        } else if (Caracter == ' '|| Caracter == '\t') { }
                         else
                         {
                             Token += Caracter;
