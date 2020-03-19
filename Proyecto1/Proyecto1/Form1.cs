@@ -61,6 +61,7 @@ namespace Proyecto1
             } catch (Exception E) {
                 MessageBox.Show("NO HAY NADA QUE ANALIZAR", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            comboBox1.Items.Clear();
             try {
                 String[] Img = M.RecuperarImagenes();
                 foreach (String IMAGEN in Img) {
@@ -82,6 +83,7 @@ namespace Proyecto1
 
         private void iMAGENESToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            comboBox1.Items.Clear();
             try
             {
                 String[] Img = M.RecuperarImagenes();
