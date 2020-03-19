@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Proyecto1.Globale;
 using Proyecto1.TDA;
 
@@ -17,7 +19,7 @@ namespace Proyecto1.Metodos
         public Globales G = new Globales();
         Stack<String> EXPSeparada;
         Stack<NodoT> NODOS = null;
-        Stack<TAFD> TabTranAFD = null; 
+        Stack<TAFD> TabTranAFD = null;
         NodoT Inicio = null, Fin = null;
         int ContadorNodo = 0;
         int ContadorAFN = 0;
@@ -128,6 +130,8 @@ namespace Proyecto1.Metodos
             GenerarAFN();
             GenerarAFD();
             TabTransicionesAFD();
+            GenerarAFDImagen();
+            GeneraAutomata();
             ContadorAFN++;
             //Metodos que deben generar el automata
             G.contadorArbol++;
@@ -155,23 +159,23 @@ namespace Proyecto1.Metodos
                 ValExp = EXPSeparada.Pop();
                 if (ValExp.Equals("*"))
                 {
-                    PlantillaKleen(Aux);
+                    PlantillaKleen(Fin);
                 }
                 else if (ValExp.Equals("|"))
                 {
-                    PlantillaOr(Aux);
+                    PlantillaOr(Fin);
                 }
                 else if (ValExp.Equals("+"))
                 {
-                    PlantillaCerraduraPositiva(Aux);
+                    PlantillaCerraduraPositiva(Fin);
                 }
                 else if (ValExp.Equals("?"))
                 {
-                    PlantillaSignoInterrogacion(Aux);
+                    PlantillaSignoInterrogacion(Fin);
                 }
                 else if (ValExp.Equals("."))
                 {
-                    PlantillaConcatenacion(Aux);
+                    PlantillaConcatenacion(Fin);
                 }
             }
             Console.WriteLine(ContadorNodo);
@@ -229,6 +233,7 @@ namespace Proyecto1.Metodos
             Nodo3.NodoAbajo1 = Nodo4;
             Nodo3.ValNodoAbajo1 = G.Eps;
             NODOS.Push(Nodo1); NODOS.Push(Nodo2); NODOS.Push(Nodo3); NODOS.Push(Nodo4);
+            Fin = Nodo4;
             //se retorna el 4to nodo de la plantilla
             return Nodo4;
         }
@@ -311,6 +316,7 @@ namespace Proyecto1.Metodos
             }
             NODOS.Push(Nodo1); NODOS.Push(Nodo2); NODOS.Push(Nodo3);
             //se retorna el ultimo nodo
+            Fin = Nodo3;
             return Nodo3;
         }
         public NodoT PlantillaOr(NodoT Nodo) {
@@ -399,6 +405,7 @@ namespace Proyecto1.Metodos
             Nodo5.NodoArriba1 = Nodo6; Nodo5.ValNodoArriba1 = G.Eps;
             //Se retorna el 6to nodo
             NODOS.Push(Nodo1); NODOS.Push(Nodo2); NODOS.Push(Nodo3); NODOS.Push(Nodo4); NODOS.Push(Nodo5); NODOS.Push(Nodo6);
+            Fin = Nodo6;
             return Nodo6;
         }
         public void PlantillaSignoInterrogacion(NodoT Nodo) {
@@ -494,7 +501,7 @@ namespace Proyecto1.Metodos
         public void GenerarAFD() {
             TranEpsilon = new TE[ContadorNodo];
             int ContArreglo = 0;
-            for (int i=0;i<NODOS.Count();i++){
+            for (int i = 0; i < NODOS.Count(); i++) {
                 NodoT aux = NODOS.ElementAt(i);
                 TranEps = "";
                 for (int j = 0; j < NODOS.Count(); j++) { NODOS.ElementAt(j).Leido1 = false; }
@@ -508,8 +515,8 @@ namespace Proyecto1.Metodos
             TE[] Ordenado = new TE[ContadorNodo];
             int Cont = 0;
             for (int i = 0; i < ContadorNodo; i++) {
-                for (int j=0;j<TranEpsilon.Length;j++) {
-                    if (TranEpsilon[j].Estado1==i) {
+                for (int j = 0; j < TranEpsilon.Length; j++) {
+                    if (TranEpsilon[j].Estado1 == i) {
                         Ordenado[Cont] = new TE();
                         Ordenado[Cont].Estado1 = TranEpsilon[j].Estado1;
                         //se ordena el conjunto del estado encontrado
@@ -524,7 +531,7 @@ namespace Proyecto1.Metodos
                         String ConjuntoOrdenadoCadena = "";
                         foreach (int Num in ConjOrdenado) {
                             if (ConjuntoOrdenadoCadena.Equals("")) { ConjuntoOrdenadoCadena = Convert.ToString(Num); }
-                            else { ConjuntoOrdenadoCadena += ","+Convert.ToString(Num); }
+                            else { ConjuntoOrdenadoCadena += "," + Convert.ToString(Num); }
                         }
                         Ordenado[Cont].ConjuntoEps1 = ConjuntoOrdenadoCadena;
                         Cont++;
@@ -550,7 +557,7 @@ namespace Proyecto1.Metodos
                 Nodo.Leido1 = true;
                 if (TranEps.Equals("")) { TranEps = Convert.ToString(Nodo.NumNodo1); }
                 else { TranEps += "," + Convert.ToString(Nodo.NumNodo1); }
-                if (Nodo.NodoArriba1 != null) 
+                if (Nodo.NodoArriba1 != null)
                 {
                     if (Nodo.ValNodoArriba1.Equals(G.Eps)) { BuscarTranEpsilon(Nodo.NodoArriba1); }
                 }
@@ -566,8 +573,8 @@ namespace Proyecto1.Metodos
             Stack<String> Conj = new Stack<string>();
             Stack<String> ConjRecorrido = new Stack<string>();
             TAFD Encabezado = new TAFD(Alfabeto.Count());
-            for (int i=0;i<Alfabeto.Count();i++) {
-                Encabezado.Opciones1[i] =Alfabeto.ElementAt(i);
+            for (int i = 0; i < Alfabeto.Count(); i++) {
+                Encabezado.Opciones1[i] = Alfabeto.ElementAt(i);
             }
             TabTranAFD.Push(Encabezado);
             TAFD Nuevo = new TAFD(Alfabeto.Count());
@@ -579,10 +586,10 @@ namespace Proyecto1.Metodos
                 foreach (String Estado in EstadosSeparados) {
                     int numEstado = Convert.ToInt32(Estado);
                     for (int j = 0; j < NODOS.Count; j++) {
-                        if (NODOS.ElementAt(j).NumNodo1==numEstado) {
+                        if (NODOS.ElementAt(j).NumNodo1 == numEstado) {
                             if (NODOS.ElementAt(j).ValNodoArriba1.Equals(Alfabeto.ElementAt(i))) {
                                 if (Conjunto.Equals("")) { Conjunto = Convert.ToString(NODOS.ElementAt(j).NodoArriba1.NumNodo1); }
-                                else { Conjunto += ","+Convert.ToString(NODOS.ElementAt(j).NodoArriba1.NumNodo1); }
+                                else { Conjunto += "," + Convert.ToString(NODOS.ElementAt(j).NodoArriba1.NumNodo1); }
                             }
                             if (NODOS.ElementAt(j).ValNodoAbajo1.Equals(Alfabeto.ElementAt(i)))
                             {
@@ -598,16 +605,278 @@ namespace Proyecto1.Metodos
                 Contador++;
             }
             TabTranAFD.Push(Nuevo);
-            //Recorrer Demas Conjuntos
+            TAFD NuevoAux = null;
+            while (Conj.Count() != 0) {
+                String C = Conj.Pop();
+                ConjRecorrido.Push(C);
+                String[] C_A_R = C.Split(',');
+                foreach (String Aux in C_A_R) {
+                    Contador = 0;
+                    NuevoAux = new TAFD(Alfabeto.Count());
+                    NuevoAux.Estado1 = C;
+                    try {
+                        for (int i = 0; i < Alfabeto.Count(); i++)
+                        {
+                            String Conjunto = "";
+                            String[] EstadosSeparados = TranEpsilon[Convert.ToInt32(Aux)].ConjuntoEps1.Split(',');
+                            foreach (String Estado in EstadosSeparados)
+                            {
+                                int numEstado = Convert.ToInt32(Estado);
+                                for (int j = 0; j < NODOS.Count; j++)
+                                {
+                                    if (NODOS.ElementAt(j).NumNodo1 == numEstado)
+                                    {
+                                        if (NODOS.ElementAt(j).ValNodoArriba1.Equals(Alfabeto.ElementAt(i)))
+                                        {
+                                            if (Conjunto.Equals("")) { Conjunto = Convert.ToString(NODOS.ElementAt(j).NodoArriba1.NumNodo1); }
+                                            else { Conjunto += "," + Convert.ToString(NODOS.ElementAt(j).NodoArriba1.NumNodo1); }
+                                        }
+                                        if (NODOS.ElementAt(j).ValNodoAbajo1.Equals(Alfabeto.ElementAt(i)))
+                                        {
+                                            if (Conjunto.Equals("")) { Conjunto = Convert.ToString(NODOS.ElementAt(j).NodoAbajo1.NumNodo1); }
+                                            else { Conjunto += "," + Convert.ToString(NODOS.ElementAt(j).NodoAbajo1.NumNodo1); }
+                                        }
+                                        break;
+                                    }
+
+                                }
+                            }
+                            NuevoAux.Opciones1[Contador] = Conjunto;
+                            if (!Conjunto.Equals("") && !ConjRecorrido.Contains(Conjunto)) { Conj.Push(Conjunto); }
+                            Contador++;
+                        }
+                    } catch (Exception E) { }
+                    Boolean insertar = true;
+                    for (int q = 0; q < TabTranAFD.Count(); q++) {
+                        if (TabTranAFD.ElementAt(q).Estado1.Equals(NuevoAux.Estado1)) { insertar = false; break; }
+                    }
+                    if (insertar == true) { TabTranAFD.Push(NuevoAux); }
+                }
+            }
+
+        }
+
+        public void GenerarAFDImagen() {
+            //Recorrer Otros Conjuntos
             String Text = "";
-            for (int i=TabTranAFD.Count-1;i>=0;i--) {
-                Text = "Estado: "+TabTranAFD.ElementAt(i).Estado1+" ";
-                foreach (String Aux in TabTranAFD.ElementAt(i).Opciones1) {
-                    Text += "Opcion:" + Aux+" ";
+            for (int i = TabTranAFD.Count - 1; i >= 0; i--)
+            {
+                Text = "Estado: " + TabTranAFD.ElementAt(i).Estado1 + " ";
+                foreach (String Aux in TabTranAFD.ElementAt(i).Opciones1)
+                {
+                    Text += "Opcion:" + Aux + " ";
                 }
                 Console.WriteLine(Text);
             }
+            try
+            {
+                StreamWriter archivo = new StreamWriter("C:\\GraphvizC\\dot\\TABTRAN" + ContadorAFN + ".dot");
+                archivo.WriteLine("digraph G{");
+                archivo.WriteLine("Tansiciones [label=< \n " +
+                    "<table border = \"0\" cellborder = \"1\" cellspacing = \"0\"> \n" +
+                    "<tr> \n" +
+                    "<td><i> ESTADOS </i></td> \n");
+                foreach (String Opcion in TabTranAFD.ElementAt(TabTranAFD.Count - 1).Opciones1) {
+                    String Texto = "";
+                    for (int a = 0; a < Opcion.Length; a++)
+                    {
+                        if ((int)Opcion[a] == 62) { Texto += "MQ"; }
+                        else if ((int)Opcion[a] == 60) { Texto += "MQ"; }
+                        else { Texto += Opcion[a]; }
+                    }
+                    archivo.WriteLine("<td><i> " + Texto + " </i></td> \n");
+                }
+                archivo.WriteLine("</tr>\n");
+
+                for (int i = TabTranAFD.Count - 2; i >= 0; i--)
+                {
+                    archivo.WriteLine("<tr>\n");
+                    archivo.WriteLine("<td>" + TabTranAFD.ElementAt(i).Estado1 + "</td> \n");
+                    foreach (String Opcion in TabTranAFD.ElementAt(i).Opciones1)
+                    {
+                        archivo.WriteLine("<td>" + Opcion + "</td> \n");
+                    }
+                    archivo.WriteLine("</tr>\n");
+                }
+                archivo.WriteLine("</table> \n" +
+                ">];");
+                archivo.WriteLine("}");
+                archivo.Close();
+            }
+            catch (Exception E) { MessageBox.Show("Error al guardar TabTran", "No Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            Process process = new Process();
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.FileName = @"C:\Program Files (x86)\Graphviz2.38\bin\dot.exe";
+            process.StartInfo.Arguments = string.Format(@"-Tpng {0} -o  {1} ", @"C:\GraphvizC\dot\TABTRAN" + ContadorAFN + ".dot", @"C:\GraphvizC\Imagen\TABTRAN" + ContadorAFN + ".png");
+            process.Start();
+            process.WaitForExit();
         }
 
+        public void GeneraAutomata() {
+            Stack<Estados> NombreEstados = new Stack<Estados>();
+            Stack<TAFD> TAFDAUX = new Stack<TAFD>();
+            int Contador = 0;
+            foreach (TAFD a in TabTranAFD) {
+                if (!a.Estado1.Equals("")) {
+                    Estados NewEstado = new Estados("Q" + Contador, a.Estado1);
+                    Console.WriteLine("Q" + Contador + " " + a.Estado1);
+                    NombreEstados.Push(NewEstado);
+                    Contador++;
+                }
+            }
+            foreach (TAFD a in TabTranAFD)
+            {
+                TAFD Nuevo = new TAFD(Alfabeto.Count);
+                for (int i = 0; i < NombreEstados.Count; i++) {
+                    String Estado = NombreEstados.ElementAt(i).Conjunto1;
+                    String NomEstado = NombreEstados.ElementAt(i).Estado1;
+                    if (a.Estado1.Equals(Estado)) { Nuevo.Estado1 = NomEstado; break; }
+                }
+                for (int i = 0; i < a.Opciones1.Length; i++) {
+                    String Estado = a.Opciones1[i];
+                    for (int j = 0; j < NombreEstados.Count; j++) {
+                        if (Estado.Equals(NombreEstados.ElementAt(j).Conjunto1)) { Nuevo.Opciones1[i] = NombreEstados.ElementAt(j).Estado1; }
+                    }
+                }
+                TAFDAUX.Push(Nuevo);
+            }
+            try
+            {
+                StreamWriter archivo = new StreamWriter("C:\\GraphvizC\\dot\\AUTOMATA" + ContadorAFN + ".dot");
+                archivo.WriteLine("digraph G{");
+                foreach (Estados a in NombreEstados) {
+                    archivo.WriteLine(a.Estado1 + " [label=\"" + a.Estado1 + "\"];");
+                }
+                for (int i = 0; i < TAFDAUX.Count; i++)
+                {
+                    String Estado = TAFDAUX.ElementAt(i).Estado1;
+                    for (int j = 0; j < TAFDAUX.ElementAt(i).Opciones1.Length; j++) {
+                        if (!TAFDAUX.ElementAt(i).Opciones1[j].Equals("")) {
+                            String aNodo = TAFDAUX.ElementAt(i).Opciones1[j];
+                            String Texto = "";
+                            for (int k = 0; k < TabTranAFD.ElementAt(TabTranAFD.Count - 1).Opciones1[j].Length; k++) {
+                                if (TabTranAFD.ElementAt(TabTranAFD.Count - 1).Opciones1[j][k] != '"') {
+                                    Texto += TabTranAFD.ElementAt(TabTranAFD.Count - 1).Opciones1[j][k];
+                                }
+                            }
+                            archivo.WriteLine(Estado + "->" + aNodo + "[label=\"" + Texto + "\"];");
+                        }
+                    }
+                }
+                archivo.WriteLine("}");
+                archivo.Close();
+            }
+            catch (Exception E) { MessageBox.Show("Error al guardar Automata", "No Guardado", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            Process process = new Process();
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.FileName = @"C:\Program Files (x86)\Graphviz2.38\bin\dot.exe";
+            process.StartInfo.Arguments = string.Format(@"-Tpng {0} -o  {1} ", @"C:\GraphvizC\dot\AUTOMATA" + ContadorAFN + ".dot", @"C:\GraphvizC\Imagen\AUTOMATA" + ContadorAFN + ".png");
+            process.Start();
+            process.WaitForExit();
+        }
+
+        public Boolean BuscarNodoAceptacion(NodoT Nodo) {
+            Boolean Aceptar = false;
+            Nodo.Leido1 = true;
+            if (Nodo == Fin) { Aceptar = true; }
+            if (Nodo.NodoArriba1 != null && Nodo.ValNodoArriba1.Equals(G.Eps) && Nodo.Leido1 == false) {
+                Aceptar = BuscarNodoAceptacion(Nodo.NodoArriba1);
+            }
+            if (Nodo.NodoAbajo1 != null && Nodo.ValNodoAbajo1.Equals(G.Eps) && Nodo.Leido1 == false) {
+                Aceptar = BuscarNodoAceptacion(Nodo.NodoAbajo1);
+            }
+            return Aceptar;
+        }
+
+        public String[] RecuperarImagenes() {
+            DirectoryInfo di = new DirectoryInfo(@"C:\GraphvizC\Imagen");
+            var Directorio = di.GetFiles();
+            int Contador = 0;
+            foreach (var fi in Directorio)
+            {
+                Contador++;
+            }
+            String[] Dir = new String[Contador];
+            Contador = 0;
+            foreach (var fi in Directorio) {
+                Dir[Contador] = Convert.ToString(fi);
+                Contador++;
+            }
+            return Dir;
+        }
+
+        public void CrearXMLToken(Stack<Token> tokens) {
+            StreamWriter archivo = new StreamWriter(@"C:\GraphvizC\Archivos\XMLTOKENS.xml");
+            archivo.WriteLine("<ListaToken>");
+            foreach (Token Aux in tokens) {
+                archivo.WriteLine("<Token>");
+                archivo.WriteLine("<ID>"+Aux.getID()+"</ID>");
+                String Texto = "";
+                for (int i=0;i<Aux.getLexema().Length;i++) {
+                    if (Aux.getLexema()[i] == '>') { Texto += "MAYORQUE"; }
+                    else if (Aux.getLexema()[i] == '<') { Texto += "MENORQUE"; }
+                    else { Texto += Aux.getLexema()[i]; }
+                }
+                archivo.WriteLine("<LEXEMA>"+Texto+"</LEXEMA>");
+                archivo.WriteLine("</Token>");
+            }
+            archivo.WriteLine("</ListaToken>");
+            archivo.Close();
+        }
+        public void CrearXMLErrores(Stack<Error> Errores) {
+            StreamWriter archivo = new StreamWriter(@"C:\GraphvizC\Archivos\XMLERRORES.xml");
+            archivo.WriteLine("<ListaErrores>");
+            foreach (Error Aux in Errores) {
+                archivo.WriteLine("<ERRORES>");
+                archivo.WriteLine("<ID>"+Aux.getID()+"</ID>");
+                String Texto = "";
+                for (int i = 0; i < Aux.getLexema().Length; i++)
+                {
+                    if (Aux.getLexema()[i] == '>') { Texto += "MAYORQUE"; }
+                    else if (Aux.getLexema()[i] == '<') { Texto += "MENORQUE"; }
+                    else { Texto += Aux.getLexema()[i]; }
+                }
+                archivo.WriteLine("<LEXEMA>"+Texto+"</LEXEMA>");
+                archivo.WriteLine("<FILA>"+Aux.getFila()+"</FILA>");
+                archivo.WriteLine("<COLUMNA>"+Aux.getColumna()+"</COLUMNA>");
+                Texto = "";
+                for (int i = 0; i < Aux.getEsperado().Length; i++)
+                {
+                    if (Aux.getEsperado()[i] == '>') { Texto += "MAYORQUE"; }
+                    else if (Aux.getEsperado()[i] == '<') { Texto += "MENORQUE"; }
+                    else { Texto += Aux.getEsperado()[i]; }
+                }
+                archivo.WriteLine("<ESPERADO>"+Texto+"</ESPERADO>");
+                archivo.WriteLine("</ERRORES>");
+            }
+           
+            archivo.WriteLine("</ListaErrores>");
+            archivo.Close();
+        }
+        public void CrearPDFErrores(Stack<Error> Error) {
+            FileStream fs = new FileStream(@"C:\GraphvizC\Archivos\XMLERRORES.pdf",FileMode.Create);
+            Document documento = new Document(iTextSharp.text.PageSize.LETTER,50,50,30,30);
+            PdfWriter pw = PdfWriter.GetInstance(documento,fs);
+            documento.Open();
+            PdfPTable table = new PdfPTable(5);
+            table.AddCell("ID");
+            table.AddCell("LEXEMA");
+            table.AddCell("FILA");
+            table.AddCell("COLUMNA");
+            table.AddCell("ESPERADO");
+            foreach (Error Aux in Error) {
+                table.AddCell(Convert.ToString(Aux.getID()));
+                table.AddCell(Aux.getLexema());
+                table.AddCell(Convert.ToString(Aux.getFila()));
+                table.AddCell(Convert.ToString(Aux.getColumna()));
+                table.AddCell(Aux.getEsperado());
+            }
+            documento.Add(table);
+            documento.Close();
+        }
     }
 }

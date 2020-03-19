@@ -912,6 +912,10 @@ namespace Proyecto1.Metodos
                 G.contadorArbol = 0;
                 M.BuscarExpReg(G.TOKEN);
             }
+            M.CrearXMLToken(G.TOKEN);
+            M.CrearXMLErrores(G.ERROR);
+            M.CrearPDFErrores(G.ERROR);
+            MessageBox.Show("ANALISIS TERMINADO","FINALIZADO",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
     }
 }
