@@ -906,6 +906,7 @@ namespace Proyecto1.Metodos
                 }
             }
             METODOS M = new METODOS();
+            M.CrearConjuntos(G.TOKEN);
             M.CargarTablaToken(DTG1,G.TOKEN);
             M.CargarTablaErrores(DTG2, G.ERROR);
             if (G.ERROR.Count==0) {
