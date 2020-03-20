@@ -56,7 +56,7 @@ namespace Proyecto1
                 Automata A = new Automata();
                 string NombreRich = "Rich" + tabControl1.SelectedTab.Text;
                 RichTextBox Rich = tabControl1.SelectedTab.Controls[NombreRich] as RichTextBox;
-                A.AutomataConjuntos(Rich.Text, dataGridView1, dataGridView2);
+                A.AutomataConjuntos(Rich.Text, dataGridView1, dataGridView2,dataGridView3);
                 M.RecuperarImagenes();
             } catch (Exception E) {
                 MessageBox.Show("NO HAY NADA QUE ANALIZAR", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

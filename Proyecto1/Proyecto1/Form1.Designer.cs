@@ -38,6 +38,7 @@
             this.iMAGENESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xMLTOKENSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xMLERRORESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gENERARPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -46,7 +47,8 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.gENERARPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl2.SuspendLayout();
@@ -54,6 +56,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -93,37 +97,44 @@
             // aBRIRToolStripMenuItem
             // 
             this.aBRIRToolStripMenuItem.Name = "aBRIRToolStripMenuItem";
-            this.aBRIRToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aBRIRToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.aBRIRToolStripMenuItem.Text = "ABRIR";
             this.aBRIRToolStripMenuItem.Click += new System.EventHandler(this.aBRIRToolStripMenuItem_Click);
             // 
             // aNALIZARToolStripMenuItem
             // 
             this.aNALIZARToolStripMenuItem.Name = "aNALIZARToolStripMenuItem";
-            this.aNALIZARToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aNALIZARToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.aNALIZARToolStripMenuItem.Text = "ANALIZAR";
             this.aNALIZARToolStripMenuItem.Click += new System.EventHandler(this.aNALIZARToolStripMenuItem_Click);
             // 
             // iMAGENESToolStripMenuItem
             // 
             this.iMAGENESToolStripMenuItem.Name = "iMAGENESToolStripMenuItem";
-            this.iMAGENESToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iMAGENESToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.iMAGENESToolStripMenuItem.Text = "IMAGENES";
             this.iMAGENESToolStripMenuItem.Click += new System.EventHandler(this.iMAGENESToolStripMenuItem_Click);
             // 
             // xMLTOKENSToolStripMenuItem
             // 
             this.xMLTOKENSToolStripMenuItem.Name = "xMLTOKENSToolStripMenuItem";
-            this.xMLTOKENSToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.xMLTOKENSToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.xMLTOKENSToolStripMenuItem.Text = "XML TOKENS";
             this.xMLTOKENSToolStripMenuItem.Click += new System.EventHandler(this.xMLTOKENSToolStripMenuItem_Click);
             // 
             // xMLERRORESToolStripMenuItem
             // 
             this.xMLERRORESToolStripMenuItem.Name = "xMLERRORESToolStripMenuItem";
-            this.xMLERRORESToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.xMLERRORESToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.xMLERRORESToolStripMenuItem.Text = "XML ERRORES";
             this.xMLERRORESToolStripMenuItem.Click += new System.EventHandler(this.xMLERRORESToolStripMenuItem_Click);
+            // 
+            // gENERARPDFToolStripMenuItem
+            // 
+            this.gENERARPDFToolStripMenuItem.Name = "gENERARPDFToolStripMenuItem";
+            this.gENERARPDFToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.gENERARPDFToolStripMenuItem.Text = "GENERAR PDF";
+            this.gENERARPDFToolStripMenuItem.Click += new System.EventHandler(this.gENERARPDFToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -144,6 +155,7 @@
             // 
             this.tabControl2.Controls.Add(this.tabPage3);
             this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Controls.Add(this.tabPage1);
             this.tabControl2.Location = new System.Drawing.Point(16, 419);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
@@ -201,12 +213,24 @@
             this.comboBox1.TabIndex = 6;
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.SeleccionarIMG);
             // 
-            // gENERARPDFToolStripMenuItem
+            // tabPage1
             // 
-            this.gENERARPDFToolStripMenuItem.Name = "gENERARPDFToolStripMenuItem";
-            this.gENERARPDFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.gENERARPDFToolStripMenuItem.Text = "GENERAR PDF";
-            this.gENERARPDFToolStripMenuItem.Click += new System.EventHandler(this.gENERARPDFToolStripMenuItem_Click);
+            this.tabPage1.Controls.Add(this.dataGridView3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(511, 143);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "CONSOLA";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.Size = new System.Drawing.Size(511, 143);
+            this.dataGridView3.TabIndex = 0;
             // 
             // Form1
             // 
@@ -228,6 +252,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -252,6 +278,8 @@
         private System.Windows.Forms.ToolStripMenuItem xMLTOKENSToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem xMLERRORESToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gENERARPDFToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.DataGridView dataGridView3;
     }
 }
 

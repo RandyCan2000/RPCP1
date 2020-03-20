@@ -17,7 +17,7 @@ namespace Proyecto1.Metodos
         Error ERRC;
         int Fila = 1;
         int Columna = 1;
-        public void AutomataConjuntos(String Linea,DataGridView DTG1, DataGridView DTG2)
+        public void AutomataConjuntos(String Linea,DataGridView DTG1, DataGridView DTG2, DataGridView Consola)
         {
             G.TOKEN = new Stack<Token>();
             G.ERROR = new Stack<Error>();
@@ -911,7 +911,7 @@ namespace Proyecto1.Metodos
             M.CargarTablaErrores(DTG2, G.ERROR);
             if (G.ERROR.Count==0) {
                 G.contadorArbol = 0;
-                M.BuscarExpReg(G.TOKEN);
+                M.BuscarExpReg(G.TOKEN,Consola);
             }
             M.CrearXMLToken(G.TOKEN);
             M.CrearXMLErrores(G.ERROR);

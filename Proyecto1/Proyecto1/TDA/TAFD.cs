@@ -19,5 +19,7 @@ namespace Proyecto1.TDA
 
         public string Estado1 { get => Estado; set => Estado = value; }
         public string[] Opciones1 { get => Opciones; set => Opciones = value; }
+
+
     }
 }
