@@ -1016,7 +1016,7 @@ namespace Proyecto1.Metodos
                                     String Text = "";
                                     try {
                                         int A = 0;
-                                        for ( A= i; A>i- Alfabeto.ElementAt(j).Count(); A--) {
+                                        for ( A= i; A>i- Alfabeto.ElementAt(j).Count()+2; A--) {
                                             Text += Lexema.ElementAt(A);
                                         }
                                         i = A;
@@ -1037,7 +1037,7 @@ namespace Proyecto1.Metodos
                                     foreach (String[] Conj in Conjuntos) {
                                         if (Conj[0].Equals(Alfabeto.ElementAt(j))) {
                                             encontro = true;
-                                            for (int t = 1; t < Conj.Length; t++) {
+                                            for (int t = 0; t < Conj.Length; t++) {
                                                 if (Conj[t].Equals(Letra)) {
                                                     for (int W = 0; W < Tran.Count; W++)
                                                     {
