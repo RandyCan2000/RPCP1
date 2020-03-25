@@ -1003,14 +1003,32 @@ namespace Proyecto1.Metodos
                             String b = a.Opciones1[j];
                             if (!b.Equals(""))
                             {
-                                if (Alfabeto.ElementAt(j)[0] == '"')
+                                if (Alfabeto.ElementAt(j)[0] == '"' && Alfabeto.ElementAt(j).Count() == 3)
                                 {
                                     if (Alfabeto.ElementAt(j)[1] == Letra) {
-                                        for (int W=0;W<Tran.Count;W++) {
+                                        for (int W = 0; W < Tran.Count; W++) {
                                             if (Tran.ElementAt(W).Estado1.Equals(b)) { num = W; break; }
                                         }
                                     }
                                     else { NumeroIntentos++; }
+                                }
+                                else if (Alfabeto.ElementAt(j)[0] == '"' && Alfabeto.ElementAt(j).Count() > 3) {
+                                    String Text = "";
+                                    try {
+                                        int A = 0;
+                                        for ( A= i; A>i- Alfabeto.ElementAt(j).Count(); A--) {
+                                            Text += Lexema.ElementAt(A);
+                                        }
+                                        i = A;
+                                        if (Alfabeto.ElementAt(j).Equals("\""+Text+"\""))
+                                        {
+                                            for (int W = 0; W < Tran.Count; W++)
+                                            {
+                                                if (Tran.ElementAt(W).Estado1.Equals(b)) { num = W; break; }
+                                            }
+                                        }
+                                        else { NumeroIntentos++; }
+                                    } catch (Exception E) { }
                                 }
                                 else
                                 {

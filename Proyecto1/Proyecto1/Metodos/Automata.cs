@@ -10,9 +10,8 @@ namespace Proyecto1.Metodos
     {
         
         public Globales G = new Globales();
-        int Estado = 0;
+        int Estado = 1;
         String Token = "";
-        Boolean AceptadoConjuntos = true;
         char Caracter;
         Error ERRC;
         int Fila = 1;
@@ -78,13 +77,13 @@ namespace Proyecto1.Metodos
                             Estado = 9;
                             Token = "<";
                         }
-                        else if (Caracter == '}')
+                        /*else if (Caracter == '}')
                         {
                             Token Z1 = new Token(G.TOKEN.Count, "}");
                             Console.WriteLine(Z1.toString());
                             G.TOKEN.Push(Z1);
                             Terminar = true;
-                        }
+                        }*/
                         /*else if (Caracter == '%')
                         {
                             Estado = 26;
